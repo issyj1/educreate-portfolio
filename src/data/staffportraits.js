@@ -1,20 +1,18 @@
-export const staffPortraits = [
-  
- 
-    
-    
-    {
-        src: "/img/staffportraits/billmum1.jpg",
-        title: "Reading in Garden",
-        link: "/gallery/educate",
-      },{
-        src: "/img/staffportraits/Dhanvanti.jpg",
-        title: "Reading in Garden",
-        link: "/gallery/educate",
-      },{
-        src: "/img/staffportraits/maureen1.jpg",
-        title: "Reading in Garden",
-        link: "/gallery/educate",
-      },
-  ];
 
+export const staffPortraits = [
+  {
+    src: `${import.meta.env.BASE_URL}img/staffportraits/billmum1.jpg`,
+    title: "Reading in Garden",
+    link: "/gallery/educate",
+  },
+  {
+    src: `${import.meta.env.BASE_URL}img/staffportraits/Dhanvanti.jpg`,
+    title: "Reading in Garden",
+    link: "/gallery/educate",
+  },
+  {
+    src: `${import.meta.env.BASE_URL}img/staffportraits/maureen1.jpg`,
+    title: "Reading in Garden",
+    link: "/gallery/educate",
+  },
+];
