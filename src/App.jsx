@@ -85,7 +85,7 @@ useEffect(() => {
       <main>
 
       <section className="hero">
-      <h2 className="educreate-title">EduCreate</h2>
+      <h2 className="educreate-title">Educreate</h2>
         <p>
     Creative services for education companies. Explore latest work below.
   </p>

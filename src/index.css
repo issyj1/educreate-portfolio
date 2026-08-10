@@ -164,11 +164,14 @@ body {
   font-size: 50px;
 }
 
-h2 {
+.hero h2 {
 font-family: Helvetica;
-color: #cb09ed; 
+color: #f2b419; 
 }
 
+h2 {
+  color: #d303e6; 
+}
 
 .footer {
   position: fixed;
