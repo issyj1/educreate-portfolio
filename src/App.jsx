@@ -9,7 +9,9 @@ import CustomCursor from "./components/CustomCursor";
 
 import { useEffect, useState } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   const [lightboxImages, setLightboxImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -26,15 +28,22 @@ useEffect(() => {
   
 }, []);
 
-  useEffect(() => {
-    gsap.from(".thumbnail-image", {
+useEffect(() => {
+  gsap.utils.toArray(".thumbnail-image").forEach((image) => {
+    gsap.from(image, {
       opacity: 0,
-      y: 60,
-      stagger: 0.15,
+      y: 50,
       duration: 1,
       ease: "power3.out",
+
+      scrollTrigger: {
+        trigger: image,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
     });
-  }, []);
+  });
+}, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -76,9 +85,9 @@ useEffect(() => {
       <main>
 
       <section className="hero">
-      <h2 className="educreate-title">Educreate</h2>
+      <h2 className="educreate-title">EduCreate</h2>
         <p>
-    Creative services for education companies. Explore latest work
+    Creative services for education companies. Explore latest work below.
   </p>
 </section>
 
@@ -94,7 +103,7 @@ useEffect(() => {
         </section>
 
         <section className="photography">
-          <h2>Ads</h2>
+          <h2>Advertising Campaigns</h2>
 
           <ThumbnailGrid
             images={educateImages}
@@ -105,7 +114,7 @@ useEffect(() => {
         </section>
 
         <section className="photography">
-          <h2>School Portraits</h2>
+          <h2>Staff Portraits</h2>
           <ThumbnailGrid
             images={staffPortraits}
             onImageClick={(index) =>
@@ -115,10 +124,16 @@ useEffect(() => {
         </section>
 
 
-        <section className="photography">
-          <h2>Staff Portraits</h2>
-          <ThumbnailGrid images={[]} />
-        </section>
+        
+
+        <section className="hero">
+      <h2 className="educreate-title">Contact Us</h2>
+        <p>
+We build advertising campaigns, striking photography, websites and content for education companies. We make everything with a huge focus on strategy and a love of craft.  
+We'd love to hear from you. Get in touch at isabellejohnson826@gmail.com  </p>
+</section>
+
+
       </main>
 
       <Footer />

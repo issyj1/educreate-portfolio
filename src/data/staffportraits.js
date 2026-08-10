@@ -15,4 +15,14 @@ export const staffPortraits = [
     title: "Reading in Garden",
     link: "/gallery/educate",
   },
+  {
+    src: `${import.meta.env.BASE_URL}img/staffportraits/samj.jpg`,
+    title: "Reading in Garden",
+    link: "/gallery/educate",
+  },
+  {
+    src: `${import.meta.env.BASE_URL}img/staffportraits/brixtonmanager.jpg`,
+    title: "Reading in Garden",
+    link: "/gallery/educate",
+  },
 ];
