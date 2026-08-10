@@ -412,12 +412,12 @@ body {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: rgb(233, 214, 2);
+  background: rgba(233, 214, 2, 0.6);
 
   pointer-events: none;
   z-index: 9999;
 
-
+  mix-blend-mode: difference;
   transform: translate(-50%, -50%);
 }
  
