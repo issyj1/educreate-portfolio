@@ -535,6 +535,10 @@ ul, #myUL, li, .nested {
         /*margin: auto;  */ 
         /*text-align: center;*/
      }
+     .hero h2 {
+      font-size: 50px;
+    }
+
      .logo {
       margin: 0 auto;
       padding-left: 0%;
