@@ -424,11 +424,10 @@ body {
  
 
 .hero {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 40px;
+  padding: 5%;
 }
 
 .hero h2 {
