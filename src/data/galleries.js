@@ -1,27 +1,15 @@
-import { fashionImages } from "./fashion";
-import { portraitImages } from "./portrait";
-import { thingsImages } from "./things";
-import { collageImages } from "./collage";
+import { educateImages } from "./educateimages";
+import { featuredImages } from "./featuredimages";
 
 export const galleries = [
   {
-    id: "fashion",
-    title: "Fashion",
-    images: fashionImages
+    id: "educate",
+    title: "Education",
+    images: educateImages,
   },
   {
-    id: "portrait",
-    title: "Portrait",
-    images: portraitImages
+    id: "photography",
+    title: "Photography",
+    images: featuredImages,
   },
-  {
-    id: "things",
-    title: "things",
-    images: thingsImages
-  },
-  {
-    id: "collage",
-    title: "Collage",
-    images: collageImages
-  }
 ];

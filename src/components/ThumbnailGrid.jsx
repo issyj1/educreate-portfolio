@@ -1,17 +1,21 @@
-import { Link } from "react-router-dom";
-import { featuredImages } from "../data/featuredimages";
-
-export default function ThumbnailGrid() {
+export default function ThumbnailGrid({
+  images = [],
+  onImageClick,
+}) {
   return (
-    <div className="container">
-      {featuredImages.map((img, i) => (
-        <Link key={i} to={img.link} className="thumb">
-          <img src={img.src} />
-
-          <span className="tooltip-text">
-            {img.title}
-          </span>
-        </Link>
+    <div className="thumbnail-grid">
+      {images.map((img, i) => (
+        <button
+          className="thumbnail"
+          key={i}
+          onClick={() => onImageClick(i)}
+        >
+          <img
+            className="thumbnail-image"
+            src={img.src}
+            alt={img.title}
+          />
+        </button>
       ))}
     </div>
   );

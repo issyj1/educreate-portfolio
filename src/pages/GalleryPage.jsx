@@ -1,16 +1,38 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { galleries } from "../data/galleries";
-import Gallery from "../components/Gallery";
+import Lightbox from "../components/Lightbox";
 
 export default function GalleryPage() {
+
   const { galleryId } = useParams();
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const gallery = galleries.find(g => g.id === galleryId);
+  const images = galleries[galleryId];
 
-  if (!gallery) {
-    return <div>Gallery not found</div>; // 👈 should show instead of blank
+  if (!images) {
+    return <h2>Gallery not found</h2>;
   }
 
-  return <Gallery images={gallery.images} />;
+  return (
+    <>
+      <div className="gallery-grid">
 
+        {images.map((img, i) => (
+          <img
+            key={i}
+            src={img.src}
+            alt={img.title}
+            onClick={() => setSelectedImage(img)}
+          />
+        ))}
+
+      </div>
+
+      <Lightbox
+        image={selectedImage}
+        close={() => setSelectedImage(null)}
+      />
+    </>
+  );
 }

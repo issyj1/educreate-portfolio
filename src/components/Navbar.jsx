@@ -1,209 +1,558 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { navTree } from "../data/navdata";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [open, setOpen] = useState(null);
-  const [phase, setPhase] = useState("idle"); 
-  const [activeItems, setActiveItems] = useState([]);
+  const [openPath, setOpenPath] = useState([]);
+  const [overlayVisible, setOverlayVisible] =
+    useState(false);
 
+  const navRef = useRef(null);
+  const buttonRef = useRef(null);
+  const navWrapperRef = useRef(null);
+
+  // ---------------- SCROLL LOCK ----------------
   useEffect(() => {
-    document.body.style.overflow = menuOpen || open ? "hidden" : "";
-    return () => (document.body.style.overflow = "");
-  }, [menuOpen, open]);
+    document.body.style.overflow = menuOpen
+      ? "hidden"
+      : "";
 
-  const closeAll = () => {
-    setMenuOpen(false);
-    startClose();
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  // ---------------- CLICK OUTSIDE ----------------
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const wrapper = navWrapperRef.current;
+      const button = buttonRef.current;
+
+      if (!wrapper) return;
+
+      const clickedInsideNav =
+        wrapper.contains(e.target);
+
+      const clickedButton =
+        button?.contains(e.target);
+
+      if (
+        clickedInsideNav ||
+        clickedButton
+      )
+        return;
+
+      setOpenPath([]);
+
+      setTimeout(() => {
+        setMenuOpen(false);
+      }, 450);
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
+
+  // ---------------- ANIMATION ----------------
+const listVariants = {
+  open: {
+    transition: {
+      staggerChildren: 0.09,
+      delayChildren: 0.04,
+    },
+  },
+
+  closed: {
+    transition: {
+      staggerChildren: 0.07,
+      staggerDirection: -1,
+    },
+  },
+};
+
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.15,
+        ease: "easeOut",
+      },
+    },
+  
+    closed: {
+      opacity: 0,
+      x: -10,   // from left
+      y: 0,    // from top
+      transition: {
+        duration: 0.15,
+        ease: "easeIn",
+      },
+    },
   };
 
-  const toggleMenu = () => setMenuOpen((p) => !p);
 
-  const getChildren = (label) =>
-    navTree.find((n) => n.label === label)?.children || [];
+  const textVariants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.55,
+        ease: "easeOut",
+      },
+    },
+  
+    closed: {
+      opacity: 0,
+      x: -6,   // from left
+      y: -6,    // from top
+      scale: 0.98,
+      transition: {
+        duration: 0.15,
+        ease: "easeIn",
+      },
+    },
+  };
 
-  // ---------------- OPEN ----------------
-  const startOpen = (label) => {
-    const children = getChildren(label);
-
-    setOpen(label);
-    setPhase("entering");
-    setActiveItems([]); // reset
-
-    children.forEach((item, i) => {
+  // ---------------- MENU ----------------
+  const toggleMenu = () => {
+    if (menuOpen) {
+      // closing menu
+      setOpenPath([]);
+  
       setTimeout(() => {
-        setActiveItems((prev) => [...prev, item.label]);
-      }, i * 120);
+        setMenuOpen(false);
+      }, 300);
+  
+      return;
+    }
+  
+    // opening menu
+    setMenuOpen(true);
+  };
+
+  const closeAll = () => {
+    setOpenPath([]);
+
+    setTimeout(() => {
+      setMenuOpen(false);
+    }, 300);
+  };
+
+  // ---------------- HELPERS ----------------
+  const pathsEqual = (a, b) =>
+    a.length === b.length &&
+    a.every((v, i) => v === b[i]);
+
+    const isOpen = (path) =>
+      path.every(
+        (segment, i) => openPath[i] === segment
+      );
+
+  // accordion behavior
+  const togglePath = (path) => {
+    setOpenPath((prev) => {
+      const clickedInsideCurrent =
+        path.every((v, i) => prev[i] === v);
+  
+      // clicking an already-open branch
+      if (clickedInsideCurrent) {
+        // ROOT LEVEL → close everything
+        if (path.length === 1) {
+          return [];
+        }
+  
+        // nested branch → collapse to parent
+        return path.slice(0, -1);
+      }
+  
+      // open new branch
+      return path;
     });
   };
 
-  // ---------------- CLOSE (FIXED) ----------------
-  const startClose = () => {
-    if (!open) return;
+  // ---------------- OVERLAY ----------------
+  const activeRoot =
+    openPath[0]?.toLowerCase();
 
-    const children = getChildren(open);
+  const overlaySections = [
+    "about",
+    "reviews",
+    "contact",
+  ];
 
-    setPhase("exiting");
-
-    // REMOVE ONE BY ONE (reverse order for nicer feel)
-    children
-      .slice()
-      .reverse()
-      .forEach((item, i) => {
-        setTimeout(() => {
-          setActiveItems((prev) =>
-            prev.filter((x) => x !== item.label)
-          );
-        }, i * 80);
-      });
-
-    setTimeout(() => {
-      setOpen(null);
-      setPhase("idle");
-      setActiveItems([]);
-    }, children.length * 90 + 150);
-  };
-
-  const toggle = (label) => {
-    if (open === label) startClose();
-    else {
-      startClose();
-      setTimeout(() => startOpen(label), 180);
+  useEffect(() => {
+    const shouldShow =
+      menuOpen &&
+      overlaySections.includes(
+        openPath[0]?.toLowerCase()
+      );
+  
+    let timeout;
+  
+    if (shouldShow) {
+      setOverlayVisible(true);
+    } else {
+      timeout = setTimeout(() => {
+        setOverlayVisible(false);
+      }, 300);
     }
-  };
+  
+    return () => clearTimeout(timeout);
+  }, [menuOpen, openPath]);
 
-  const renderNode = (node) => {
+  const isReviewsActive =
+    menuOpen &&
+    (activeRoot === "reviews" ||
+      activeRoot === "about");
+
+  // ---------------- RENDER ----------------
+  const renderNode = (
+    node,
+    path = []
+  ) => {
+    const currentPath = [
+      ...path,
+      node.label,
+    ];
+
+    const open = isOpen(currentPath);
+
+    // ---------------- LINK ----------------
     if (node.to) {
       return (
-        <li key={node.label} className="nav-item">
-          <Link to={node.to} onClick={closeAll}>
+        <motion.li
+          key={currentPath.join("-")}
+          className="nav-item"
+          variants={itemVariants}
+        >
+          <Link
+            to={node.to}
+            onClick={closeAll}
+          >
             {node.label}
           </Link>
-        </li>
+        </motion.li>
       );
     }
 
-    if (node.type === "folder") {
-      const isOpen = open === node.label;
-
+    // ---------------- FOLDER ----------------
+    if (node.children) {
       return (
-        <li key={node.label} className="nav-item">
-         <div className="caret"
-  onClick={(e) => {
-    e.stopPropagation(); // 👈 THIS fixes it
-    toggle(node.label);
-  }}
->
-  {node.label}
-</div>
+        <motion.li
+          key={currentPath.join("-")}
+          className="nav-item"
+          variants={itemVariants}
+        >
+          <div className="node-row">
+            <div
+              className={`caret nav-node ${
+                node.label.toLowerCase() ===
+                activeRoot
+                  ? "active-focus"
+                  : ""
+              }`}
+              onClick={() =>
+                togglePath(currentPath)
+              }
+            >
+              {node.label}
 
-          {isOpen && (
-            <ul className="nested">
-              {node.children.map((child, i) => {
-                const visible = activeItems.includes(child.label);
-
-                return (
-                  <li
-                    key={child.label}
-                    className={`fade-item ${
-                      visible ? "fade-in" : "fade-out"
-                    }`}
-                    style={{ animationDelay: `${i * 0.08}s` }}
-                  >
-                    {child.to ? (
-                      <Link to={child.to} onClick={closeAll}>
-                        {child.label}
-                      </Link>
-                    ) : (
-<div
-  onClick={(e) => {
-    e.stopPropagation();
-    toggle(child.label);
-  }}
->                        {child.label}
-                      </div>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </li>
-      );
-    }
-
-    if (node.type === "text") {
-      const isOpen = open === node.label;
-
-      return (
-        <li key={node.label} className="nav-item">
-          <div className="caret" onClick={() => toggle(node.label)}>
-            {node.label}
+              <div className="nav-l" />
+            </div>
           </div>
 
-          {isOpen && (
-            <ul className="nested">
-              {node.lines.map((line, i) => (
-                <p
-                  key={i}
-                  className={`fade-line ${phase}`}
-                  style={{ animationDelay: `${i * 0.15}s` }}
-                >
-                  {line}
-                </p>
-              ))}
-            </ul>
-          )}
-        </li>
-      );
-    }
-
-    if (node.type === "contact") {
-      const isOpen = open === node.label;
-
-      return (
-        <li key={node.label} className="nav-item">
-          <div className="caret" onClick={() => toggle(node.label)}>
-            {node.label}
-          </div>
-
-          {isOpen && (
-            <ul className="nested">
-              <p className="fade-line">{node.lines?.[0]}</p>
-              <a
-                className="fade-line"
-                href={node.instagram}
-                target="_blank"
-                rel="noreferrer"
+          <AnimatePresence>
+            {open && (
+              <motion.ul
+                className="nested"
+                variants={listVariants}
+                initial="closed"
+                animate="open"
+                exit="closed"
               >
-                issyj1
-              </a>
-            </ul>
-          )}
-        </li>
+                {node.children.map(
+                  (child) =>
+                    renderNode(
+                      child,
+                      currentPath
+                    )
+                )}
+              </motion.ul>
+            )}
+          </AnimatePresence>
+        </motion.li>
+      );
+    }
+
+    // ---------------- TEXT ----------------
+    if (node.type === "text") {
+      return (
+        <motion.li
+          key={currentPath.join("-")}
+          className="nav-item"
+          variants={itemVariants}
+        >
+          <div
+            className={`caret ${
+              node.label.toLowerCase() ===
+              activeRoot
+                ? "active-focus"
+                : ""
+            }`}
+            onClick={() =>
+              togglePath(currentPath)
+            }
+          >
+            {node.label}
+          </div>
+
+          <AnimatePresence>
+            {open && (
+              <motion.ul
+                className="nested"
+                variants={listVariants}
+                initial="closed"
+                animate="open"
+                exit="closed"
+              >
+                {node.lines.map(
+                  (line, i) => {
+                    // plain string
+                    if (
+                      typeof line ===
+                      "string"
+                    ) {
+                      return (
+                        <motion.p
+                          key={i}
+                          className="fade-line"
+                          variants={
+                            textVariants
+                          }
+                        >
+                          {line}
+                        </motion.p>
+                      );
+                    }
+
+                    // review object
+                    return (
+                      <motion.p
+                        key={i}
+                        className="fade-line"
+                        variants={
+                          textVariants
+                        }
+                      >
+                        {line.name && (
+                          <>
+                            <strong>
+                              {line.name}
+                            </strong>
+
+                            {line.role &&
+                              `, ${line.role}`}{" "}
+                          </>
+                        )}
+
+                        {line.text}
+
+                        {line.linkText && (
+                          <a
+                            href={line.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-link"
+                          >
+                            {line.linkText}
+                          </a>
+                        )}
+
+                        {line.after}
+                      </motion.p>
+                    );
+                  }
+                )}
+              </motion.ul>
+            )}
+          </AnimatePresence>
+        </motion.li>
+      );
+    }
+
+    // ---------------- CONTACT ----------------
+    if (node.type === "contact") {
+      return (
+        <motion.li
+          key={currentPath.join("-")}
+          className="nav-item"
+          variants={itemVariants}
+        >
+          <div
+            className={`caret ${
+              node.label.toLowerCase() ===
+              activeRoot
+                ? "active-focus"
+                : ""
+            }`}
+            onClick={() =>
+              togglePath(currentPath)
+            }
+          >
+            {node.label}
+          </div>
+
+          <AnimatePresence>
+            {open && (
+              <motion.ul
+                className="nested contact-block"
+                variants={textVariants}
+                initial="closed"
+                animate="open"
+                exit="closed"
+              >
+                <motion.a
+                  variants={textVariants}
+                  className="fade-line contact-link"
+                  href={`mailto:${node.email}`}
+                >
+                  {node.email}
+                </motion.a>
+
+                <motion.a
+                  variants={textVariants}
+                  className="fade-line contact-link"
+                  href={node.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Instagram
+                </motion.a>
+
+                <motion.p
+                  variants={textVariants}
+                  className="fade-line contact-text"
+                >
+                  {node.lines?.[0]}
+                </motion.p>
+              </motion.ul>
+            )}
+          </AnimatePresence>
+        </motion.li>
       );
     }
 
     return null;
   };
 
+  // ---------------- UI ----------------
   return (
     <>
-      <Link to="/" className="logo" onClick={closeAll}>
-        <img src={`${import.meta.env.BASE_URL}img/svg/pinklogo.png`} />
-      </Link>
+      <div ref={navWrapperRef}>
+        <Link
+          to="/"
+          className="logo"
+          onClick={closeAll}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}img/svg/Asset 5.svg`}
+            alt="logo"
+          />
+        </Link>
 
-      <button
-        className={`hamburger ${menuOpen ? "rotate" : ""}`}
-        onClick={toggleMenu}
-      >
-        →
-      </button>
+        <motion.button
+          className="hamburger"
+          ref={buttonRef}
+          onClick={toggleMenu}
+          animate={
+            menuOpen ? "open" : "closed"
+          }
+          variants={{
+            closed: {
+              rotate: -40,
+              color: "",
+              backgroundColor:
+                "darkgray",
+            },
 
-      <nav className={`nav ${menuOpen ? "open" : ""}`}>
-        <ul className="menu">{navTree.map(renderNode)}</ul>
-      </nav>
+            open: {
+              rotate: 45,
+              color: "",
+              backgroundColor:
+                "rgb(239, 177, 20)",
+            },
+          }}
+          transition={{
+            duration: 0.4,
+            ease: "easeInOut",
+          }}
+        >
+          →
+        </motion.button>
+
+        <motion.div
+  className="overlay"
+  animate={{
+    opacity: overlayVisible ? 1 : 0,
+  }}
+  transition={{
+    duration: 0.3,
+    ease: "easeInOut",
+  }}
+  style={{
+    pointerEvents: overlayVisible
+      ? "auto"
+      : "none",
+  }}
+/>
+
+        <motion.nav
+          ref={navRef}
+          initial={false}
+          animate={
+            menuOpen ? "open" : "closed"
+          }
+          className={`nav
+            ${menuOpen ? "open" : ""}
+            ${
+              isReviewsActive
+                ? "focus-reviews"
+                : ""
+            }
+          `}
+        >
+          <motion.ul
+            className="menu"
+            variants={listVariants}
+            initial="closed"
+            animate={
+              menuOpen
+                ? "open"
+                : "closed"
+            }
+          >
+            {navTree.map((node) =>
+              renderNode(node)
+            )}
+          </motion.ul>
+        </motion.nav>
+      </div>
     </>
   );
 }

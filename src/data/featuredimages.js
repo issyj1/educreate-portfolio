@@ -1,45 +1,66 @@
 export const featuredImages = [
-    {
-      src:   "/img/fashion/georgehair.jpg",
-      title: "Portraits",
-      link: "/gallery/portrait",
-    },
-    {
-      src:   "/img/things/pinkflower.jpg",
-      title: "Print Store",
-      link: "/gallery/things",
-    },
-    {
-      src: "/img/fashion/auckeyellow.jpg",
-      title: "Fashion",
-      link: "/gallery/fashion",
-    },
-    
-    {
-        src: "/img/portrait/dark seren.jpg",
-        title: "Fashion",
-        link: "/gallery/things",
-      },
-      {
-        src:   "/img/portrait/fab portrait.jpg",
-        title: "Portraits",
-        link: "/gallery/portrait",
-      },
-      {
-        src:   "/img/portrait/seren dutch.jpg",
-        title: "Print Store",
-        link: "/gallery/things",
-      },
-      {
-        src: "/img/fashion/auckeyellow.jpg",
-        title: "Fashion",
-        link: "/gallery/fashion",
-      },
+  
+   
       
-      {
-          src: "/img/things/blackflower.JPG",
-          title: "Fashion",
-          link: "/gallery/things",
-        },
+    {
+      src: "/img/educate/431A4272.jpg",
+     
+    },
+    {
+      src: "/img/educate/Leys - Medium.jpg",
+      title: "Leys",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/Skating Colville - 3168 x 2112 (1).jpg",
+      title: "Skating Colville",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/Staff carrying child edit - 5760 x 3840.jpg",
+      title: "Staff Carrying Child",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/children playing with wooden building blocks - Large (1) (1).jpg",
+      title: "Children Playing with Wooden Building Blocks",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/431A9843.jpg",
+      title: "Education",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/431A9645.jpg",
+      title: "Education",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/431A4481.jpg",
+      title: "Education",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/431A4468.jpg",
+      title: "Education",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/431A4444.jpg",
+      title: "Education",
+      link: "/gallery/educate",
+    },
+    {
+      src: "/img/educate/431A4381.jpg",
+      title: "Education",
+      link: "/gallery/educate",
+    },
+  
+    {
+      src: "/img/educate/Reading in garden - Medium.jpg",
+      title: "Reading in Garden",
+      link: "/gallery/educate",
+    },
   ];
 
