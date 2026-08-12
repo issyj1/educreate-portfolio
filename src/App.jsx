@@ -152,7 +152,7 @@ useEffect(() => {
       <h2 className="contact-title">Contact Us</h2>
         <p>
 We build advertising campaigns, striking photography, websites and content for education companies. We make everything with a huge focus on strategy and a love of craft.  
-We'd love to hear from you. Get in touch at isabellejohnson826@gmail.com  </p>
+We'd love to hear from you. Get in touch at educreateworld@gmail.com</p>
 
 
 Let's Educreate. Company part of New World Creative Studio

@@ -8,6 +8,17 @@ export const featuredImages = [
     link: "/gallery/educate",
   },
   {
+    src: `${import.meta.env.BASE_URL}img/educate/publi3.jpg`,
+    title: "Question mark",
+    link: "/gallery/educate",
+  },
+  {
+    src: `${import.meta.env.BASE_URL}img/educate/publi.jpg`,
+    title: "Staff Carrying Child",
+    link: "/gallery/educate",
+  },
+  
+  {
     src: `${import.meta.env.BASE_URL}img/educate/children playing with wooden building blocks - Large (1) (1).jpg`,
     title: "Children Playing with Wooden Building Blocks",
     link: "/gallery/educate",
