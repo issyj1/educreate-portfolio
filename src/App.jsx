@@ -2,9 +2,11 @@ import Footer from "./components/Footer";
 import ThumbnailGrid from "./components/ThumbnailGrid";
 import Lightbox from "./components/Lightbox";
 
-import { educateImages } from "./data/educateimages";
+import { educateImages } from "./data/educateimages.js";
 import { featuredImages } from "./data/featuredimages";
 import { staffPortraits } from "./data/staffportraits";
+import { illustrationImages } from "./data/illustrations";
+
 import CustomCursor from "./components/CustomCursor";
 
 import { useEffect, useState } from "react";
@@ -17,16 +19,26 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(null);
 
 
-useEffect(() => {
-  gsap.from(".educreate-title", {
-    opacity: 0,
-    y: 225,
-    duration: 1.4,
-    ease: "power3.out",
-  });
-
+  useEffect(() => {
+    gsap.from(".educreate-title", {
+      opacity: 0,
+      y: 125,
+      duration: 1.4,
+      ease: "power3.out",
+    });
   
-}, []);
+    gsap.from(".contact-title", {
+      opacity: 0,
+      y: 125,
+      duration: 1.4,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".contact-title",
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+  }, []);
 
 useEffect(() => {
   gsap.utils.toArray(".thumbnail-image").forEach((image) => {
@@ -123,14 +135,27 @@ useEffect(() => {
           />
         </section>
 
+    
 
-        
+        <section className="photography illustration-section">
+  <h2 className="section-title">Illustration</h2>
+
+  <ThumbnailGrid
+    images={illustrationImages}
+    onImageClick={(index) =>
+      openLightbox(illustrationImages, index)
+    }
+  />
+</section>
 
         <section className="hero">
-      <h2 className="educreate-title">Contact Us</h2>
+      <h2 className="contact-title">Contact Us</h2>
         <p>
 We build advertising campaigns, striking photography, websites and content for education companies. We make everything with a huge focus on strategy and a love of craft.  
 We'd love to hear from you. Get in touch at isabellejohnson826@gmail.com  </p>
+
+
+Let's Educreate. Company part of New World Creative Studio
 </section>
 
 

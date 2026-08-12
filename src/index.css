@@ -306,7 +306,43 @@ a.fade-line {
   opacity: 1;
 }
 
+.hero {
+  position: relative;
+  z-index: 1;
+}
+.educreate-title {
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
 
+.hero-description {
+  margin-top: 5px;
+}
+.photography {
+  position: relative;
+  z-index: 2;
+}
+
+.thumbnail-grid {
+  position: relative;
+  z-index: 3;
+  grid-gap: 0.4em;
+}
+
+.thumbnail-button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+  cursor: none;
+  display: block;
+  width: 100%;
+}
+
+.thumbnail-button img {
+  display: block;
+  width: 100%;
+}
 
 .thumbnail img {
   display: block;
@@ -405,6 +441,16 @@ a.fade-line {
     }
 
 /* slidesghow test */
+.illustration-section {
+  width: 100%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.illustration-section .thumbnail-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
 
 body {
   cursor: none;
@@ -424,7 +470,7 @@ body {
   transform: translate(-50%, -50%);
 }
  
- 
+
 
 .hero {
   display: flex;
@@ -465,7 +511,34 @@ z-index: -100;
 
 }
 
+@media (max-width: 768px) {
+  .lightbox-prev,
+  .lightbox-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
 
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+    padding: 0;
+
+    z-index: 10001;
+  }
+
+  .lightbox-prev {
+    left: 10px;
+  }
+
+  .lightbox-next {
+    right: 10px;
+  }
+}
 
 /*media queries*/
 @media only screen and (max-width: 768px) {
@@ -508,19 +581,6 @@ ul, #myUL, li, .nested {
 
     }
     
-   
-  
-
-                /*playing about*/
-
-      
-
-        
-
-        .nested .about {
-            width: 500px;
-            z-index: 3;
-        }
 
 
   
@@ -547,96 +607,9 @@ ul, #myUL, li, .nested {
       font-size: 50px;
     }
 
-     .logo {
-      margin: 0 auto;
-      padding-left: 0%;
-      padding-top: 2%;
-    }
 
 
-    .logo svg,
-    .logo img {
-      width: auto;
-      display: block;
-      margin: 0 auto;
-      width: 95px;
 
-    }
-     
-    .hamburger {
-      top: 3%;
-      left: 3%;
-
-    }
-    body.menu-open {
-      overflow: hidden;
-    }
-  
-   
-  ul.menu {
-    margin-top: 3px;
-    margin-left: 8px;
-  
-  }
-  
-  .nav {
-    padding-left: 5px;
-    left: 0px;
-  }
-  
-  .caret::after,
-  .menu li > a::after {
-    left: -12px; /* smaller offset */
-  }
-
-        li {
-          /*margin: auto;  */ 
-          margin-top: 3px;
-          margin-left: 0px;
-      }
-
-    
-        .fade-line {
-          font-size: 0.95em; /* was 0.7em */
-          color: rgb(61, 61, 61);
-        }
-        p.fade-line {
-          padding-right: 5%;
-        }
-      
-        .caret {
-          font-size: 1em;
-        }
-      
-        .nested {
-          padding-left: 10px;
-          gap: 1px;
-
-        }
-      
-
-      p.fade-line, a.fade-line  {
-        
-          width: 95%;
-      }
-      
-      .prev-btn,
-      .next-btn {
-        bottom: 30px;
-        padding: 9px;
-
-      }
-      .prev-btn { left: 15px; }
-      .next-btn { right: 15px; }
-
-      .slideshow-overlay {
-        padding: 10%;
-      }
-      .footer {
-       
-        bottom: 5px;
-        right: 5px;
-      }
       
 
         html {
@@ -673,27 +646,6 @@ ul, #myUL, li, .nested {
     }
 
 
-    #open-cart {
-      top: 100px;
-
-    }
-
-    .printh3 {
-      width: 28%;
-      top: 55px;
-      font-size: 1em;
-
-    }
-
-    #paypal-button-container {
-  width: 40%;        /* must have width */
-  /* must have height for iframe to render */
-  /* horizontally center */
-}
-.cart-container {
-  width: 90%;
-  
-}
 
 
   }
