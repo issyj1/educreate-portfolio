@@ -151,7 +151,7 @@ useEffect(() => {
         <section className="hero">
       <h2 className="contact-title">Contact Us</h2>
         <p>
-We build advertising campaigns, striking photography, websites and content for education companies. We start with sharp strategy right and finish with the craft with love.  
+We build advertising campaigns, striking photography, websites and content for education companies. 
 We'd love to hear from you. Get in touch at educreateworld@gmail.com</p>
 
 
