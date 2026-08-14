@@ -137,25 +137,23 @@ useEffect(() => {
 
     
 
-        <section className="photography illustration-section">
-  <h2 className="section-title">Illustration</h2>
-
-  <ThumbnailGrid
-    images={illustrationImages}
-    onImageClick={(index) =>
-      openLightbox(illustrationImages, index)
-    }
-  />
-</section>
+       
 
         <section className="hero">
       <h2 className="contact-title">Contact Us</h2>
         <p>
 We build advertising campaigns, striking photography, websites and content for education companies. 
-We'd love to hear from you. Get in touch at educreateworld@gmail.com</p>
+We'd love to hear from you. Get in touch at educreateworld@gmail.com
 
 
-Let's Educreate. Company part of New World Creative Studio.
+Let's Educreate. Company part of <a
+  href="https://newworldcreative.studio"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  New World Creative Studio
+</a>
+</p>
 All contents, site build and design © New World Creative Studio
 </section>
 

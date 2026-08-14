@@ -173,6 +173,19 @@ h2 {
   color: #d303e6; 
 }
 
+a {
+  position: inline-block;
+  z-index: 99999;
+  pointer-events: auto;
+
+}
+.hero p a {
+  position: relative;
+  z-index: 99999;
+  pointer-events: auto;
+  color: #3219f2; 
+  text-decoration: none;
+}
 .footer {
   position: fixed;
   right: 20px;
